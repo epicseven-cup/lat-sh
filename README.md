@@ -5,6 +5,10 @@ cli tool for https://lat.sh, url shorter
 lat-sh -s theapothecarydiariesopening3 -d https://www.youtube.com/watch?v=wOleNo7T6_4
 ```
 
+```bash
+lat-sh -o https://lat.sh/dandandondon
+```
+
 # Install
 1. You will need to install go on your machine: https://go.dev/doc/install
 2. Setup GOPATH

@@ -16,6 +16,12 @@ type Response struct {
 	Message string `json:"message"`
 }
 
+type OverviewResponse struct {
+	Source      string `json:"source"`
+	Destination string `json:"destination"`
+	Visitor     int    `json:"visitor"`
+}
+
 type LatShClient struct {
 	UserAgent          string
 	MaxIdleConns       int
@@ -77,5 +83,24 @@ func (c *LatShClient) CreateUrl(source string, destination string) error {
 
 	fmt.Println(fmt.Sprintf("Response status code: %d", post.StatusCode))
 	fmt.Println(fmt.Sprintf("Message: %s", jsonResponse.Message))
+	return nil
+}
+
+func (c *LatShClient) Overview(url string) error {
+	overviewUrl := url + "?o=true"
+	response, err := c._client.Get(overviewUrl)
+	if err != nil {
+		return err
+	}
+
+	jsonResponse := OverviewResponse{}
+	err = json.NewDecoder(response.Body).Decode(&jsonResponse)
+	if err != nil {
+		return err
+	}
+	fmt.Println(fmt.Sprintf("Response status code: %d", response.StatusCode))
+	fmt.Println(fmt.Sprintf("Source: %s", jsonResponse.Source))
+	fmt.Println(fmt.Sprintf("Destination: %s", jsonResponse.Destination))
+	fmt.Println(fmt.Sprintf("Visitor: %d", jsonResponse.Visitor))
 	return nil
 }
